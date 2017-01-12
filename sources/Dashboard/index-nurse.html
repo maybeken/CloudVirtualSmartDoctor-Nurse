@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>Dashboard - Nurse AI</title>
+	<meta charset="UTF-8">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.min.js"></script>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script>
+    var app = angular.module('App', []);
+
+    app.controller('Ctrl', function($scope, $interval, $http) {
+
+        $scope.refresh = function() {
+            $scope.loading = true;
+            document.body.style.cursor='wait';
+            $http.get("queue-nurse.json")
+            .then(function (response){
+                $scope.loading = false;
+                document.body.style.cursor='default';
+                $scope.records = response.data;
+            });
+        };
+
+        $scope.intervalPromise = $interval(function(){
+            $scope.refresh();
+        }, 5000);
+
+        // initial load of data
+        $scope.refresh();
+
+        $scope.yesno = function(val){
+          if(val == 0)
+            return "No";
+          else if(val == 1)
+            return "Yes";
+          else
+            return "N/A";
+        }
+
+        $scope.isEmpty = function(val){
+          if(typeof val === "undefined" || val == "")
+            return "N/A";
+          else
+            return val;
+        }
+    });
+
+    $(document).ready(function(){
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal').modal();
+		    // document.getElementsByTagName('html')[0].style.zoom = "90%";
+    });
+    </script>
+</head>
+
+<body ng-app="App">
+    <div class="container-fluid" ng-controller="Ctrl">
+        <div class="progress" style="margin-top: 0px; margin-bottom: 0px;">
+            <div class="indeterminate" ng-show="loading"></div>
+            <div class="determinate" style="width: 100%" ng-show="!loading"></div>
+        </div>
+        <nav>
+            <div class="nav-wrapper">
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="index.html">Triage Dashboard</a></li>
+                    <li><a href="index-nurse.html">Nurse Dashboard</a></li>
+                    <li><a href="recognition.html">Face Recogntion</a></li>
+                </ul>
+            </div>
+        </nav>
+		<div class="container-fluid">
+			<ul class="collection">
+				<li class="collection-item">
+					<table class="striped bordered responsive-table">
+						<thead>
+							<tr>
+								<th class="center-align">Date</th>
+                <th class="center-align">Name</th>
+                <th class="center-align">Fever</th>
+                <th class="center-align">Headache</th>
+                <th class="center-align">Running Nose</th>
+                <th class="center-align">Sore Throat</th>
+                <th class="center-align">Dizzy</th>
+                <th class="center-align">Diarrhea</th>
+                <th class="center-align">Hypothemia</th>
+                <th class="center-align">Hypoglycemia</th>
+                <th class="center-align">Hyperglycemia</th>
+                <th class="center-align">Body Temperature</th>
+                <th class="center-align">Blood Sugar</th>
+                <th class="center-align">Result</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="r in records" ng-class="{'grey':$index === 0,'grey lighten-1':$index === 1,'grey lighten-2':$index === 2}">
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{r.createDT | date:'dd/MM/yyyy h:mm a'}}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{r.name}}</span></td>
+								<td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveFever) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveHeadache)}}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveRunningNose) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveSoreThroat) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveDizzy) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveDiarrhea) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveHypothemia) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveLowGlucose) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ yesno(r.haveHighGlucose) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ isEmpty(r.bodyTemperature) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{ isEmpty(r.bloodSugar) }}</span></td>
+                <td class="center-align" ><span class="waves-effect waves-light btn">{{r.result }}</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</li>
+			</ul>
+		</div>
+    </div>
+</body>
+</html>

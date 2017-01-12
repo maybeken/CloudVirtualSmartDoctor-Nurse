@@ -1,0 +1,9 @@
+NameIntent my name is {name}
+NameIntent {name}
+NameIntent call me {name}
+NameIntent i am {name}
+
+ReadyIntent i am ready
+ReadyIntent finished
+ReadyIntent i am done
+ReadyIntent okay

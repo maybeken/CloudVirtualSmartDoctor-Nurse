@@ -1,0 +1,22 @@
+{
+  "name": "Nurse-AI-Alexa",
+  "version": "1.0.0",
+  "description": "Nurse AI for Alexa",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Alexa",
+    "skill"
+  ],
+  "author": "Anthony",
+  "license": "Unlicensed",
+  "homepage": "https://github.com/alexa/skill-sample-nodejs-highlowgame#readme",
+  "dependencies": {
+    "alexa-sdk": "^1.0.0",
+    "aws-sdk": "",
+    "aws-dynamodb": "",
+	"simple-get": ""
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "intents": [
+    {
+      "intent": "AMAZON.YesIntent",
+      "slots": []
+    },
+    {
+      "intent": "AMAZON.NoIntent",
+      "slots": []
+    },
+    {
+      "intent": "QuestionOneIntent",
+      "slots": []
+    },
+    {
+      "intent": "NameIntent",
+      "slots": [{
+          "name": "name",
+          "type": "AMAZON.GB_FIRST_NAME"
+      }]
+    },
+    {
+      "intent": "ReadyIntent",
+      "slots": []
+    }
+  ]
+}
